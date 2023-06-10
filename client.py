@@ -1,7 +1,7 @@
 import socket, pickle, struct, cv2
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host_ip = '192.168.120.158'
+host_ip = '192.168.1.12'
 port = 9999
 client_socket.connect((host_ip, port))
 data = b""
@@ -16,7 +16,8 @@ while True:
     packed_msg_size = data[:payload_size]
     data = data[payload_size:]
     msg_size = struct.unpack("Q", packed_msg_size)[0]
-
+    print(msg_size)
+    # print(data)
     while len(data) < msg_size:
         data += client_socket.recv(4 * 1024)
     frame_data = data[:msg_size]

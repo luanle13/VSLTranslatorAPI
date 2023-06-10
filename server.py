@@ -21,7 +21,7 @@ while True:
             img, frame = vid.read()
             frame = imutils.resize(frame, width=320)
             a = pickle.dumps(frame)
-            message = struct.pack("Q", len(a)) + a 
+            message = struct.pack("Q", len(a)) + a
             try:
                 client_socket.sendall(message)
             except Exception as e:

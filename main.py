@@ -17,29 +17,19 @@ server_socket.bind(socket_address)
 server_socket.listen(5)
 payload_size = struct.calcsize("Q")
 data = b""
-BUFFER_SIZE = 49860
+BUFFER_SIZE = 4 * 1024
 print('Listening at: ', socket_address)
-while True:
-    client_socket, address = server_socket.accept()
-    print('Got connection from: ', address)
-    if client_socket:
-        while len(data) < payload_size:
-            pack = server_socket.recv(BUFFER_SIZE)
-            if not pack:
-                break
-            data += pack
-        pack_msg_size = data[:payload_size]
-        data = data[payload_size:]
-        msg_size = struct.unpack("Q", pack_msg_size)[0]
-        while len(data) < msg_size:
-            data += server_socket.recv(BUFFER_SIZE)
-        vec_data = data[:msg_size]
-        data = b""
-        vec = pickle.loads(vec_data)
-        res = model.predict(vec)
-        buf = pickle.dumps(res)
-        mes = struct.pack("Q", len(buf)) + buf
-        try:
-            client_socket.sendall(mes)
-        except Exception as e:
-            raise Exception(e)
+i = 0
+while i < 30:
+    try:
+        i += 1
+        sck, add = server_socket.accept()
+        print('Got connection from: ', add)
+        if sck:
+            data = sck.recv(BUFFER_SIZE)
+            print(data)
+            m = b"456"
+            sck.sendall(m)
+    except Exception as e:
+        print(e)
+        raise Exception(e)
