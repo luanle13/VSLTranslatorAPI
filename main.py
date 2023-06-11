@@ -1,35 +1,46 @@
 import socket
-import cv2
+import numpy
 import pickle
-import imutils
-import struct
-import tensorflow
-from tensorflow import keras
+import cv2
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host_name = socket.gethostname()
 host_ip = socket.gethostbyname(host_name)
-model = keras.models.load_model('./action.h5')
 print('Host IP: ', host_ip)
 port = 9999
 socket_address = (host_ip, port)
 server_socket.bind(socket_address)
 server_socket.listen(5)
-payload_size = struct.calcsize("Q")
 data = b""
-BUFFER_SIZE = 4 * 1024
+BUFFER_SIZE = 4665600
 print('Listening at: ', socket_address)
-i = 0
-while i < 30:
-    try:
-        i += 1
-        sck, add = server_socket.accept()
-        print('Got connection from: ', add)
-        if sck:
-            data = sck.recv(BUFFER_SIZE)
-            print(data)
-            m = b"456"
-            sck.sendall(m)
-    except Exception as e:
-        print(e)
-        raise Exception(e)
+
+# for i in range(1, 10):
+#     sck, add = server_socket.accept()
+#     if sck:
+#         data = sck.recv(BUFFER_SIZE)
+#         print(data)
+#         m = b"K"
+#         sck.sendall(m)
+#         data = sck.recv(BUFFER_SIZE)
+#         print(data)
+#         m = b"B"
+#         sck.sendall(m)
+while True:
+    sck, add = server_socket.accept()
+    while sck:
+        data = sck.recv(BUFFER_SIZE)
+        # print(len(data))
+        if data != b"":
+            # print(data)
+            nparr = numpy.frombuffer(data, numpy.uint8)
+            frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            # print(frame)
+            # frame = numpy.frombuffer(data, numpy.uint8)
+            # print(frame.size)
+            # frame.reshape(320, 40, 3)
+            cv2.imshow('', frame)
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord('q'):
+            break
+    break
