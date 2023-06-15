@@ -27,7 +27,7 @@ while True:
             except Exception as e:
                 print(e)
                 raise Exception(e)
-            cv2.imshow('TRANSMITTING VIDEO', frame)
+            # cv2.imshow('TRANSMITTING VIDEO', frame)
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
                 client_socket.close()
