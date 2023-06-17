@@ -1,5 +1,7 @@
 from Component import Component
+from typing import List
 from abc import ABC, abstractmethod
+from Event import Event
 
 """
 This class is the base class for all user-defined sources.
@@ -9,7 +11,7 @@ name (String): The name of this source.
 parallelism (int): The number of instances of this source.
 """
 class Source(Component, ABC):
-    def __init__(self, name, parallelism):
+    def __init__(self, name: str, parallelism: int):
         super().__init__(name, parallelism)
     
     """
@@ -19,7 +21,7 @@ class Source(Component, ABC):
     instance (int): The instance id (an index starting from 0) of this source instance.
     """
     @abstractmethod
-    def setup_instance(self, instance):
+    def setup_instance(self, instance: int):
         pass
     
     """
@@ -29,5 +31,5 @@ class Source(Component, ABC):
     event_collector (list): The outgoing event collector.
     """
     @abstractmethod
-    def get_events(self, event_collector):
+    def get_events(self, event_collector: List[Event]):
         pass

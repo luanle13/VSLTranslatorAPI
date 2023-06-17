@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from Event import Event
 """
 This class is the base class for all grouping strategies.
 """
@@ -17,5 +17,5 @@ class GroupingStrategy(ABC):
     int: The integer key of this event.
     """
     @abstractmethod
-    def get_instance(self, event, parallelism):
+    def get_instance(self, event: Event, parallelism: int) -> int:
         pass

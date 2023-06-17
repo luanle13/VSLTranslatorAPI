@@ -1,10 +1,11 @@
 from GroupingStrategy import GroupingStrategy
+from Event import Event
 
 """
 With fields grouping, the events are routed to downstream instances based on some hash method.
 """
 class FieldsGrouping(GroupingStrategy):
-    def __init__(self):
+    def __init__(self) -> None:
         pass
     
     """
@@ -16,7 +17,7 @@ class FieldsGrouping(GroupingStrategy):
     Returns:
     object: The data to be hashed.
     """
-    def get_key(self, event):
+    def get_key(self, event: Event) -> object:
         return event.get_data()
     
     """
@@ -29,5 +30,5 @@ class FieldsGrouping(GroupingStrategy):
     Returns:
     int: The integer key of this event.
     """
-    def get_instance(self, event, parallelism):
+    def get_instance(self, event: Event, parallelism: int) -> int:
         return abs(self.get_key(event).__hash__()) % parallelism

@@ -1,4 +1,5 @@
 from GroupingStrategy import GroupingStrategy
+from Event import Event
 
 """
 With shuffle grouping, the events are routed to downstream instances relatively.
@@ -21,7 +22,7 @@ class ShuffleGrouping(GroupingStrategy):
     Returns:
     int: The integer key of this event.
     """
-    def get_instance(self, event, parallelism):
+    def get_instance(self, event: Event, parallelism: int) -> int:
         if self.count >= parallelism:
             self.count = 0
         self.count += 1

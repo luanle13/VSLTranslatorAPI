@@ -9,7 +9,7 @@ parallelism (int): The number of instances of this component.
 outgoing_stream (Stream): The outgoing event stream of this component. The stream is used to connect the downstream components
 """
 class Component:
-    def __init__(self, name, parallelism) -> None:
+    def __init__(self, name: str, parallelism: Stream) -> None:
         self.name = name
         self.parallelism = parallelism
         self.outgoing_stream = Stream()
@@ -20,7 +20,7 @@ class Component:
     Returns
     string: The name of this component.
     """
-    def get_name(self):
+    def get_name(self) -> str:
         return self.name
 
     """
@@ -29,7 +29,7 @@ class Component:
     Returns:
     int: The parallelism (number of instances) of this component.
     """
-    def get_parallelism(self):
+    def get_parallelism(self) -> int:
         return self.parallelism
 
     """
@@ -38,5 +38,5 @@ class Component:
     Returns:
     Stream: The outgoing event stream of this component. The stream is used to connect the downstream components
     """
-    def get_outgoing_stream(self):
+    def get_outgoing_stream(self) -> Stream:
         return self.outgoing_stream

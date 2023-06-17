@@ -2,6 +2,8 @@ from GroupingStrategy import GroupingStrategy
 from Component import Component
 from ShuffleGrouping import ShuffleGrouping
 from abc import ABC, abstractmethod
+from Event import Event
+from typing import List
 
 """
 This is the base class for all user-defined operators.
@@ -12,7 +14,7 @@ parallelism (int): The number of instances of this component.
 grouping (GroupingStrategy): The grouping strategy of this operator.
 """
 class Operator(Component):
-    def __init__(self, name, parallelism, grouping=None):
+    def __init__(self, name: str, parallelism: int, grouping: GroupingStrategy=None) -> None:
         super().__init__(name, parallelism)
         self.grouping = grouping if grouping is not None else ShuffleGrouping()
     
@@ -20,10 +22,10 @@ class Operator(Component):
     Set up instance.
 
     Parameters:
-    instance: The instance id (an index starting from 0) of this source instance.
+    instance (int): The instance id (an index starting from 0) of this source instance.
     """
     @abstractmethod
-    def setup_instance(self, instance):
+    def setup_instance(self, instance: int) -> int:
         pass
 
     """
@@ -34,7 +36,7 @@ class Operator(Component):
     event_collector (list): The outgoing event collector.
     """
     @abstractmethod
-    def apply(self, event, event_collector):
+    def apply(self, event: Event, event_collector: List[Event]):
         pass
 
     """

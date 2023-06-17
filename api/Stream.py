@@ -1,3 +1,6 @@
+from Operator import Operator
+from Stream import Stream
+
 """
 The Stream class represents a data stream coming out of a component.
 Operators with the correct type can be applied to this stream.
@@ -18,7 +21,7 @@ class Stream:
     Returns:
     Stream: The outgoing stream of the operator.
     """
-    def apply_operator(self, operator):
+    def apply_operator(self, operator: Operator) -> Stream:
         if operator in self.operator_set:
             raise Exception(f"Operator {operator.getName()} is added to job twice")
         self.operator_set.add(operator)

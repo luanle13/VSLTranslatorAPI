@@ -12,5 +12,5 @@ class Event(ABC):
     object: The data stored in the event.
     """
     @abstractmethod
-    def get_data(self):
+    def get_data(self) -> object:
         pass
