@@ -1,4 +1,4 @@
-from _thread import start_new_thread
+from threading import Thread
 from abc import ABC
 from queue import Queue
 from api import *
@@ -27,14 +27,13 @@ Each process also have an incoming event queue and outgoing event queue.
 class Process(ABC):
     def __init__(self):
         super().__init__()
-        # self.thread = Thread(target=self.run)
+        self.thread = Thread(target=self.run)
     
     """
     Start the process
     """
     def start(self):
-        # self.thread.start()
-        start_new_thread(self.run)
+        self.thread.start()
     
     """
     Continuously run the process.
@@ -105,16 +104,14 @@ class OperatorInstanceExecutor(InstanceExecutor):
     def run_once(self):
         try:
             event = self.incoming_queue.get()
-        except KeyboardInterrupt:
-            return False
-        self.operator.apply(event, self.event_collector)
-        try:
+            self.operator.apply(event, self.event_collector)
             for output in self.event_collector:
                 self.outgoing_queue.put(output)
             self.event_collector.clear()
-        except KeyboardInterrupt:
+            return True
+        except Exception as e:
+            print(e)
             return False
-        return True
 
 
 """
@@ -139,16 +136,14 @@ class SourceInstanceExecutor(InstanceExecutor):
     bool: True if the thread should continue; False if the thread should exit.
     """
     def run_once(self):
-        event_collector = []
         try:
-            self.source.get_events(event_collector)
-        except Exception:
-            return False
-        try:
-            for event in event_collector:
+            self.source.get_events(self.event_collector)
+            for event in self.event_collector:
                 self.outgoing_queue.put(event)
-            event_collector.clear()
-        except KeyboardInterrupt:
+            self.event_collector.clear()
+            return True
+        except Exception as e:
+            print(e)
             return False
         
 

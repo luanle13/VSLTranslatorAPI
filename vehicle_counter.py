@@ -12,6 +12,7 @@ class VehicleCounter(Operator):
         self.instance = instance
     
     def apply(self, event, event_collector):
+        # print("Counter")
         vehicle_event = event
         vehicle = vehicle_event.get_data()
         count = self.count_map.get(vehicle, 0) + 1

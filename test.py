@@ -34,6 +34,12 @@ vehicles = [
 client_socket.connect((host_ip, port))
 while True:
     for vehicle in vehicles:
-        message = vehicle
-        if message != None:
-            client_socket.send(message.encode())
+        try:
+            message = vehicle
+            if message != None:
+                print(message)
+                client_socket.send(message.encode())
+                time.sleep(0.3)
+        except Exception as e:
+            raise e
+    time.sleep(2)
