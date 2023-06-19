@@ -4,7 +4,7 @@ import socket as sck
 import sys
 from vehicle_event import VehicleEvent
 
-BUFFER_SIZE = 16
+BUFFER_SIZE = 32
 
 class SensorReader(Source):
     def __init__(self, name, parallelism, port):
