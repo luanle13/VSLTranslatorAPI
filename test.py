@@ -49,7 +49,7 @@ while vid.isOpened():
     img, frame = vid.read()
     frame = imutils.resize(frame, width=320, height=60)
     message = cv2.imencode('.jpg', frame)[1]
-    # print(len(message))
+    # cv2.imshow('', frame)
     try:
         client_socket.sendall(message)
     except Exception as e:

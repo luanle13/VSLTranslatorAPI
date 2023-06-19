@@ -39,7 +39,7 @@ while True:
             # frame = numpy.frombuffer(data, numpy.uint8)
             # print(frame.size)
             # frame.reshape(320, 40, 3)
-            cv2.imshow('', frame)
+            print(frame.shape)
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             break

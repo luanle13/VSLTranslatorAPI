@@ -2,7 +2,9 @@ from api import *
 import socket
 from frame_event import FrameEvent
 import cv2
-import numpy 
+import struct
+import pickle
+import numpy
 
 
 BUFFER_SIZE = 4665600
@@ -26,11 +28,9 @@ class FrameReader(Source):
                 self.connect, address = self.server_socket.accept()
             else:
                 data = self.connect.recv(BUFFER_SIZE)
-                if data != b"":
-                    nparr = numpy.frombuffer(data, numpy.uint8)
-                    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                    cv2.imshow("Receiving video", frame)
-                # event_collector.append(FrameEvent(frame))
+                nparr = numpy.frombuffer(data, numpy.uint8)
+                frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                event_collector.append(FrameEvent(frame))
         except Exception as e:
             raise e
     
