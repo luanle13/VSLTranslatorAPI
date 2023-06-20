@@ -1,7 +1,7 @@
 from api import Operator
 import cv2
 import mediapipe
-from mediapipe_event import MediapipeEvent
+from event import MediapipeEvent
 
 
 model = mediapipe.solutions.holistic.Holistic(min_detection_confidence = .5, min_tracking_confidence = .5)

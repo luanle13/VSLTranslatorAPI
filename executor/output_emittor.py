@@ -1,5 +1,4 @@
 from api import Operator
-from output_event import OutputEvent
 import socket
 
 

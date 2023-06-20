@@ -1,8 +1,7 @@
 from api import *
 import cv2
 import numpy
-from mediapipe_event import MediapipeEvent
-from numpy_array_event import NumpyArrayEvent
+from event import NumpyArrayEvent
 
 
 # model = mediapipe.solutions.holistic.Holistic(min_detection_confidence = .5, min_tracking_confidence = .5)

@@ -1,10 +1,6 @@
-from api import *
-from engine import *
-from frame_reader import FrameReader
-from mediapipe_detector import MediapipeDetector
-from landmark_extractor import LandmarkExtractor
-from text_classifier import TextClassifier
-from output_emittor import OutputEmittor
+from api import Job
+from engine import JobStarter
+from executor import FrameReader, MediapipeDetector, LandmarkExtractor, TextClassifier, OutputEmittor
 
 if __name__ == "__main__":
     job = Job("vsl_translate")

@@ -1,9 +1,7 @@
 from api import Source
 import socket
-from frame_event import FrameEvent
+from event import FrameEvent
 import cv2
-import struct
-import pickle
 import numpy
 
 
