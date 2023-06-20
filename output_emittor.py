@@ -21,10 +21,8 @@ class OutputEmittor(Operator):
                 self.connect, address = self.server_socket.accept()
             else:
                 data = event.get_data()
-                # print(data)
                 if data is not None:
-                    message = int(data).to_bytes(4, 'big')
-                    # print("Ok")
+                    message = int(data).to_bytes(8, 'big')
                     self.connect.sendall(message)
                     data = None
         except Exception as e:

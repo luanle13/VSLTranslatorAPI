@@ -7,7 +7,7 @@ import pickle
 import numpy
 
 
-BUFFER_SIZE = 4665600
+BUFFER_SIZE = 8
 
 
 class FrameReader(Source):
@@ -24,16 +24,24 @@ class FrameReader(Source):
 
     def get_events(self, event_collector):
         try:
-            data = b''
             if self.connect == None:
                 self.connect, address = self.server_socket.accept()
             else:
-                data = self.connect.recv(BUFFER_SIZE)
-                if data != b'':
-                    nparr = numpy.frombuffer(data, numpy.uint8)
-                    data = b''
-                    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                    event_collector.append(FrameEvent(frame))
+                len_message = b''
+                frame_byte = b''
+                len_message = self.connect.recv(8)
+                if len_message != b'':
+                    len_frame = int.from_bytes(len_message)
+                    len_message = b''
+                    frame_byte = self.connect.recv(len_frame)
+                    if frame_byte != b'':
+                        nparr = numpy.frombuffer(frame_byte, numpy.uint8)
+                        frame_byte = b''
+                        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                        cv2.imshow('', frame)
+                        if cv2.waitKey(10) & 0xFF == ord('q'):
+                            return
+                        event_collector.append(FrameEvent(frame))
         except Exception as e:
             pass
     
