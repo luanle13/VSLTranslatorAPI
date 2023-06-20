@@ -1,6 +1,7 @@
 from api import Operator
 from keras.models import load_model
 import numpy
+from output_event import OutputEvent
 
 model = load_model('./action.h5')
 
@@ -22,7 +23,7 @@ class TextClassifier(Operator):
                 # print(data.shape)
                 output = model.predict(numpy.expand_dims(numpy.array(self.vec_set), axis=0))[0]
                 output = numpy.argmax(output)
-                print(output)
                 self.vec_set.clear()
+                event_collector.append(OutputEvent(output))
         except Exception as e:
             pass

@@ -7,7 +7,7 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host_name = socket.gethostname()
 host_ip = socket.gethostbyname(host_name)
 print('Host IP: ', host_ip)
-port = 9990
+port = 8000
 socket_address = (host_ip, port)
 server_socket.bind(socket_address)
 server_socket.listen(5)
@@ -31,16 +31,17 @@ while True:
     while sck:
         data = sck.recv(BUFFER_SIZE)
         # print(len(data))
-        if data != b"":
-            # print(data)
-            nparr = numpy.frombuffer(data, numpy.uint8)
-            frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-            # print(frame)
-            # frame = numpy.frombuffer(data, numpy.uint8)
-            # print(frame.size)
-            # frame.reshape(320, 40, 3)
-            print(frame.shape)
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord('q'):
-            break
+        print(data)
+        # if data != b"":
+        #     # print(data)
+        #     # nparr = numpy.frombuffer(data, numpy.uint8)
+        #     # frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        #     # print(frame)
+        #     # frame = numpy.frombuffer(data, numpy.uint8)
+        #     # print(frame.size)
+        #     # frame.reshape(320, 40, 3)
+        #     print(data)
+        # key = cv2.waitKey(1) & 0xFF
+        # if key == ord('q'):
+        #     break
     break
