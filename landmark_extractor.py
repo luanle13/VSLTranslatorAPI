@@ -2,6 +2,7 @@ from api import *
 import cv2
 import numpy
 from mediapipe_event import MediapipeEvent
+from numpy_array_event import NumpyArrayEvent
 
 
 # model = mediapipe.solutions.holistic.Holistic(min_detection_confidence = .5, min_tracking_confidence = .5)
@@ -16,12 +17,15 @@ class LandmarkExtractor(Operator):
         self.instance = instance
     
     def apply(self, event, event_collector):
-        data = event.get_data()
-        if data is not None:
-            pose = self.extract_pose(data)
-            face = self.extract_face(data)
-            left_hand, right_hand = self.extract_hands(data)
-            print(numpy.concatenate([pose, face, left_hand, right_hand]))
+        try:
+            data = event.get_data()
+            if data is not None:
+                pose = self.extract_pose(data)
+                face = self.extract_face(data)
+                left_hand, right_hand = self.extract_hands(data)
+                event_collector.append(NumpyArrayEvent(numpy.concatenate([pose, face, left_hand, right_hand])))
+        except Exception as e:
+            pass
     
     def extract_pose(self, data):
         pose_lm = []

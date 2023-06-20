@@ -1,4 +1,4 @@
-from api import *
+from api import Operator
 import cv2
 import mediapipe
 from mediapipe_event import MediapipeEvent
@@ -16,9 +16,12 @@ class MediapipeDetector(Operator):
         self.instance = instance
     
     def apply(self, event, event_collector):
-        frame = event.get_data()
-        if frame is not None:
-            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = model.process(image)
-            data = MediapipeEvent(results)
-            event_collector.append(data)
+        try:
+            data = event.get_data()
+            if data is not None:
+                image = cv2.cvtColor(data, cv2.COLOR_BGR2RGB)
+                results = model.process(image)
+                data = MediapipeEvent(results)
+                event_collector.append(data)
+        except Exception as e:
+            pass

@@ -5,7 +5,7 @@ from api import *
 import copy
 
 
-QUEUE_SIZE = 64
+QUEUE_SIZE = 128
 
 
 """

@@ -1,4 +1,4 @@
-from api import *
+from api import Source
 import socket
 from frame_event import FrameEvent
 import cv2
@@ -24,15 +24,18 @@ class FrameReader(Source):
 
     def get_events(self, event_collector):
         try:
+            data = b''
             if self.connect == None:
                 self.connect, address = self.server_socket.accept()
             else:
                 data = self.connect.recv(BUFFER_SIZE)
-                nparr = numpy.frombuffer(data, numpy.uint8)
-                frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                event_collector.append(FrameEvent(frame))
+                if data != b'':
+                    nparr = numpy.frombuffer(data, numpy.uint8)
+                    data = b''
+                    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                    event_collector.append(FrameEvent(frame))
         except Exception as e:
-            raise e
+            pass
     
     def setup_socket(self, port):
         try:
