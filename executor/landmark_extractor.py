@@ -9,7 +9,7 @@ from grouping_strategy import FrameGroupingStrategy
 
 
 class LandmarkExtractor(Operator):
-    def __init__(self, name, parallelism, grouping=FrameGroupingStrategy):
+    def __init__(self, name, parallelism, grouping=FrameGroupingStrategy()):
         super().__init__(name, parallelism, grouping)
         self.instance = 0
     

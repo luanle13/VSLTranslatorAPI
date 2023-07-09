@@ -24,6 +24,9 @@ class OutputEmittor(Operator):
                     message = int(data).to_bytes(8, 'big')
                     self.connect.sendall(message)
                     data = None
+            # data = event.get_data()
+            # print("Output Emitter")
+            # print(data)
         except Exception as e:
             pass
 

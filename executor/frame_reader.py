@@ -15,6 +15,7 @@ class FrameReader(Source):
         self.instance = 0
         self.connect = None
         self.server_socket = None
+        # self.count = 0
     
     def setup_instance(self, instance):
         self.instance = instance
@@ -22,6 +23,8 @@ class FrameReader(Source):
 
     def get_events(self, event_collector):
         try:
+            # self.count += 1
+            # print(f"Frame Reader: {self.count}")
             if self.connect == None:
                 self.connect, address = self.server_socket.accept()
             else:
@@ -40,6 +43,7 @@ class FrameReader(Source):
                         if cv2.waitKey(10) & 0xFF == ord('q'):
                             return
                         event_collector.append(FrameEvent(frame))
+                        # print("Things okay here")
         except Exception as e:
             pass
     

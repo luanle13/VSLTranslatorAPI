@@ -2,11 +2,12 @@ from api import Operator
 from keras.models import load_model
 import numpy
 from event import OutputEvent
+from grouping_strategy import FrameGroupingStrategy
 
 model = load_model('./action.h5')
 
 class TextClassifier(Operator):
-    def __init__(self, name, parallelism, grouping=None):
+    def __init__(self, name, parallelism, grouping=FrameGroupingStrategy()):
         super().__init__(name, parallelism, grouping)
         self.instance = 0
         self.vec_set = []
