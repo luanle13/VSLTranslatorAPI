@@ -2,13 +2,14 @@ from api import *
 import cv2
 import numpy
 from event import NumpyArrayEvent
+from grouping_strategy import FrameGroupingStrategy
 
 
 # model = mediapipe.solutions.holistic.Holistic(min_detection_confidence = .5, min_tracking_confidence = .5)
 
 
 class LandmarkExtractor(Operator):
-    def __init__(self, name, parallelism, grouping=None):
+    def __init__(self, name, parallelism, grouping=FrameGroupingStrategy):
         super().__init__(name, parallelism, grouping)
         self.instance = 0
     
