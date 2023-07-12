@@ -9,24 +9,25 @@ class OutputEmittor(Operator):
         super().__init__(name, parallelism, grouping)
         self.instance = 0
         self.port_base = port
-        self.sio = socketio.Server(async_mode='eventlet')
-        self.app = socketio.WSGIApp(self.sio)
-        eventlet.wsgi.server(eventlet.listen(('', self.port_base)), self.app)
+        # self.sio = socketio.Server(async_mode='eventlet')
+        # self.app = socketio.WSGIApp(self.sio)
+        # eventlet.wsgi.server(eventlet.listen(('', self.port_base)), self.app)
 
     def setup_instance(self, instance):
         self.instance = instance
         # self.setup_socket(self.port_base + instance)
 
     def apply(self, event, event_collector):
-        @self.sio.event
-        def connect(sid, environ):
-            print(f'Client connected: {sid}')
+        print(event.get_data() != None)
+        # @self.sio.event
+        # def connect(sid, environ):
+        #     print(f'Client connected: {sid}')
 
-        @self.sio.event
-        def disconnect(sid):
-            print(f'Client disconnected: {sid}')
+        # @self.sio.event
+        # def disconnect(sid):
+        #     print(f'Client disconnected: {sid}')
 
-        self.sio.emit('label', event)
+        # self.sio.emit('label', event)
 
         # try:
         #     if self.connect == None:

@@ -9,18 +9,18 @@ import eventlet
 
 # BUFFER_SIZE = 8
 
-sio = socketio.Server(async_mode='eventlet')
-app = socketio.WSGIApp(sio)
-eventlet.wsgi.server(eventlet.listen(('', 9990)), app)
-
 
 class FrameReader(Source):
     def __init__(self, name, parallelism, port):
         super().__init__(name, parallelism)
         self.port_base = port
         self.instance = 0
+        self.data = None
         self.sio = socketio.Server(async_mode='eventlet')
         self.app = socketio.WSGIApp(self.sio)
+        self.sio.on('connect', self.connect)
+        self.sio.on('frame', self.frame)
+        self.sio.on('disconnect', self.disconnect)
         eventlet.wsgi.server(eventlet.listen(('', self.port_base)), self.app)
 
 
@@ -28,27 +28,45 @@ class FrameReader(Source):
         self.instance = instance
 
 
-    def get_events(self, event_collector):
-        pass
-
-
-    @sio.event
-    def connect(sid, environ):
+    def connect(self, sid, environ):
         print(f'Client connected: {sid}')
 
-    @sio.event
-    def disconnect(sid):
+
+    def disconnect(self, sid):
         print(f'Client disconnected: {sid}')
+
+
+    def get_events(self, event_collector):
+        self.event_collector.append(FrameEvent(self.data))
+
     
-    @sio.on('frame')
     def frame(self, sid, data):
-        print(data)
+        # print(data)
         nparr = np.frombuffer(data, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         cv2.imshow('receive', img)
         if cv2.waitKey(10) & 0xFF == ord('q'):
             return
-        self.event_collector.append(FrameEvent(img))
+        self.data = img
+
+    # def call_back(self):
+    #     @self.sio.on('connect')
+    #     def connect(sid, environ):
+    #         print(f'Client connected: {sid}')
+
+    #     @self.sio.on('disconnect')
+    #     def disconnect(sid):
+    #         print(f'Client disconnected: {sid}')
+        
+    #     @self.sio.on('frame')
+    #     def frame(sid, data):
+    #         print(data)
+            # nparr = np.frombuffer(data, np.uint8)
+            # img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            # cv2.imshow('receive', img)
+            # if cv2.waitKey(10) & 0xFF == ord('q'):
+            #     return
+            # self.event_collector.append(FrameEvent(img))
 
         # try:
         #     # self.count += 1
