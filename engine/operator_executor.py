@@ -13,7 +13,7 @@ class OperatorExecutor(ComponentExecutor):
         self.operator = operator
         self.instance_executors = []
         for i in range(operator.get_parallelism()):
-            cloned = copy.deepcopy(operator)
+            cloned = copy.copy(operator)
             self.instance_executors.append(OperatorInstanceExecutor(i, cloned))
 
     """

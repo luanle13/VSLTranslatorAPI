@@ -16,7 +16,7 @@ class SourceExecutor(ComponentExecutor):
         self.source = source
         self.instance_executors = []
         for i in range(source.get_parallelism()):
-            cloned = copy.deepcopy(source)
+            cloned = copy.copy(source)
             self.instance_executors.append(SourceInstanceExecutor(i, cloned))
     
     """

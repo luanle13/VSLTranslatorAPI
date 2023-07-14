@@ -1,17 +1,16 @@
 from api import Operator
 import socketio
 import eventlet
+# from server import emit_data
 # import socket
 
 
 class OutputEmittor(Operator):
-    def __init__(self, name, parallelism, port, grouping=None):
+    def __init__(self, name, parallelism, set_out_callback, grouping=None):
         super().__init__(name, parallelism, grouping)
         self.instance = 0
-        self.port_base = port
-        self.sio = socketio.Server(async_mode='eventlet')
-        self.app = socketio.WSGIApp(self.sio)
-        eventlet.wsgi.server(eventlet.listen(('', self.port_base)), self.app)
+        self.set_out_callback = set_out_callback
+
 
     def setup_instance(self, instance):
         self.instance = instance
@@ -20,7 +19,11 @@ class OutputEmittor(Operator):
 
     def apply(self, event, event_collector):
         # print(event.get_data() != None)
-        self.sio.emit('response', event)
+        data = event.get_data()
+        print(data)
+        if (data != None):
+            # emit_data(data)
+            self.set_out_callback(data)
         # @self.sio.event
         # def connect(sid, environ):
         #     print(f'Client connected: {sid}')

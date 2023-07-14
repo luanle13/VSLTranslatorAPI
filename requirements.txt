@@ -7,3 +7,6 @@ mediapipe==0.10.1
 python-socketio==5.8.0
 eventlet==0.33.3
 websocket-client==1.6.1
+websockets==11.0.3
+aiohttp==3.8.4
+asyncio==3.4.3
