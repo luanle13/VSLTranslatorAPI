@@ -18,9 +18,11 @@ class Receiver:
         return self.frame_data.get()
 
     async def frame(self, websocket, path):
-        data = await websocket.recv()
-        # print(data)
-        self.set_frame_data(data)
+        while True:
+            data = await websocket.recv()
+            # print(data)
+            if data != None:
+                self.set_frame_data(data)
 
     def serve_callback(self):
         loop = asyncio.new_event_loop()

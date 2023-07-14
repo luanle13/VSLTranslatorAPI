@@ -18,8 +18,9 @@ class Sender:
         return self.output.get()
 
     async def send(self, websocket, path):
-        if self.output.not_empty:
-            await websocket.send(self.get_out_data())
+        while True:
+            if self.output.not_empty:
+                await websocket.send(self.get_out_data())
 
 
     def serve_callback(self):
