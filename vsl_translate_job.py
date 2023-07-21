@@ -5,10 +5,10 @@ from server import Receiver, Sender
 
 
 if __name__ == "__main__":
-    receiver = Receiver(9990)
-    receiver.run()
     sender = Sender(8000)
     sender.run()
+    receiver = Receiver(9990)
+    receiver.run()
     job = Job("vsl_translate")
     data_stream = job.add_source(FrameReader("frame_reader", 1, receiver.get_frame_data))
     data_stream = data_stream.apply_operator(MediapipeDetector("mediapipe_extractor", 10))

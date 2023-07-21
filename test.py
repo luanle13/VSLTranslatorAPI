@@ -56,10 +56,11 @@ def client():
     asyncio.set_event_loop(loop)
     loop.run_until_complete(send_message('ws://localhost:9990'))
     # loop.run_forever()
-    loop.close
+    loop.close()
 
 
 if __name__ == "__main__":
-    c = threading.Thread(target=client)
+    c = threading.Thread(target=client, daemon=True)
     c.start()
     c.join()
+    # client()
